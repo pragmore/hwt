@@ -1,0 +1,64 @@
+@html(lang=en)
+head {
+  title { $title }
+  /* @html inject !doctype, meta utf8 and meta viewport */
+  meta(
+    name=description
+    content=
+      "HWT is an opionated template system aimed"
+      "to simplify the writing of HTML."
+  )
+  link(
+    rel=icon
+    href=
+      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+      '<text y=".9em" font-size="90">🛠️</text></svg>'
+  )
+  script(src="https://cdn.tailwindcss.com")
+}
+body {
+  main.grid.grid-cols-1 {
+    if ($title) {
+      h1 {
+        @raw("<em>$title</em>, by Pragmore")
+        span(ariaHidden=true) { "🛠️" }
+      }
+    }
+    p.text-xl {
+      strong { "HWT" }
+      "is and opionated template system aimed"
+      "to simplify the writing of"
+      em { "HTML" }
+    }
+    p {
+      a 
+        .bg-blue-500.hover:bg-blue-700
+        .text-white.font-bold
+        .py-2.px-4.rounded
+        (
+          id=callToAction
+          href="https://github.com/pragmore/hwt"
+        ) {
+          "Download from GitHub"
+        }
+    }
+    $position = 0
+    ul @for($feature of $features) {
+      // Setting the class to row-0 or row-1
+      $class = "row-" + $position % 2
+      li.$class (
+        dataPosition=$position
+        $feature
+      )
+      $position++
+    } @else {
+      p { "No features." }
+    }
+  }
+  footer {
+    span { 
+      "Made with ❤️ by"
+      a(href="https://pragmore.com") { "Pragmore" }
+    }
+  }
+}
